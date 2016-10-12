@@ -1,0 +1,14 @@
+endPulse1Row = round((numRows - endHeaderRow)/bursts + endHeaderRow,0);
+    dataPulse1 = str2double(T{endHeaderRow+1:endPulse1Row,:});    
+endPulse2Row = round(2*(numRows - endHeaderRow)/bursts + endHeaderRow,0);
+    dataPulse2 = str2double(T{endPulse1Row:endPulse2Row,:});
+% -- MAKE TIME RELATIVE, t1=0 --  Make into an if statement?      
+x1TimeShifted = dataPulse1(:,1) - dataPulse1(1,1);
+x2TimeShifted = dataPulse2(:,1) - dataPulse2(1,1);
+% -- MAKE TEMPERATURE RELATIVE, T1=0 --  Make into an if statement?
+y1TempDelta = dataPulse1(:,2) - dataPulse1(1,2);
+    dataPulse1 = [x1TimeShifted,y1TempDelta];
+    y1 = y1TempDelta;
+y2TempDelta = dataPulse2(:,2) - dataPulse2(1,2);
+    dataPulse2 = [x2TimeShifted,y2TempDelta];
+    y2 = y2TempDelta;

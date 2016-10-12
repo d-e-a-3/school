@@ -1,0 +1,10 @@
+% Pulse 1, set t=0          
+    x1TimeShifted = dataPulse1(:, 1) - dataPulse1(1, 1);
+    dataPulse1 = [x1TimeShifted,y1];
+        x1 = dataPulse1(:, 1);
+        y1 = dataPulse1(:, 2);     
+% Pulse 2, set t=0          
+    x2TimeShifted = dataPulse2(:, 1) - dataPulse2(1, 1);
+    dataPulse2 = [x2TimeShifted,y2];
+        x2 = dataPulse2(:, 1);
+        y2 = dataPulse2(:, 2);

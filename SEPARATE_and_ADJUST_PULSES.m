@@ -1,0 +1,29 @@
+endPulse1Row = round((numRows - endHeaderRow)/bursts + endHeaderRow,0);
+    dataPulse11 = str2double(T{endHeaderRow+1:endPulse1Row,:});    
+endPulse2Row = round(2*(numRows - endHeaderRow)/bursts + endHeaderRow,0);
+    dataPulse12 = str2double(T{endPulse1Row:endPulse2Row,:});
+% -- MAKE TIME RELATIVE, t1=0 --  Make into an if statement?      
+x1TimeShifted = dataPulse11(:,1) - dataPulse11(1,1);
+x2TimeShifted = dataPulse12(:,1) - dataPulse12(1,1);
+% -- MAKE TEMPERATURE RELATIVE, T1=0 --  Make into an if statement?
+y1TempDelta = dataPulse11(:,2) - dataPulse11(1,2);
+    dataPulse21 = [x1TimeShifted,y1TempDelta];
+        x1 = x1TimeShifted;
+        y1 = y1TempDelta;
+y2TempDelta = dataPulse12(:,2) - dataPulse12(1,2);
+    dataPulse22 = [x2TimeShifted,y2TempDelta];
+        x2 = x2TimeShifted;
+        y2 = y2TempDelta;
+% -- Scrape-off preliminary T = 0 data --
+% Assume 2 pulses, and trim to just rising edge by dividing by 4.
+% thresholdTempRise can be tweaky.  me no likey.
+differenceLocation1 = diff(y1); 
+    tempRiseStart1=find(differenceLocation1>thresholdTempRise,1);
+        xScraped1 = dataPulse21(tempRiseStart1+1:round(numRows/4),1)-dataPulse21(tempRiseStart1+1,1);
+        yScraped1 = dataPulse21(tempRiseStart1+1:round(numRows/4),2)-dataPulse21(tempRiseStart1+1,2);
+            dataPulse31 = [xScraped1,yScraped1];
+differenceLocation2 = diff(y2); 
+    tempRiseStart2=find(differenceLocation2>thresholdTempRise,1);
+        xScraped2 = dataPulse22(tempRiseStart2+1:round(numRows/4),1)-dataPulse22(tempRiseStart2+1,1);
+        yScraped2 = dataPulse22(tempRiseStart2+1:round(numRows/4),2)-dataPulse22(tempRiseStart2+1,2);
+            dataPulse32 = [xScraped2,yScraped2];
